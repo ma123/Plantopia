@@ -46,8 +46,10 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\HouseScript.cs" />
-     <Compile Include="Assets\PathFollowerScript.cs" />
+     <Compile Include="Assets\Scripts\HouseScript.cs" />
+     <Compile Include="Assets\Scripts\PathFollowerScript.cs" />
+     <Compile Include="Assets\Scripts\PlayerController.cs" />
+     <Compile Include="Assets\Scripts\SoldierScript.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
