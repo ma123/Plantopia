@@ -5,13 +5,18 @@ public class Buildings : MonoBehaviour {
 	public int buildingId = 0;
 	public int numberofSoldier = 5; 
 	public int typeOfPlayer = 0; // 1 player , 2 neutral, 3 enemy, 4 enemy2 ...
-	public int typeOfBuildings = 1;
-	private float waitTime = 3f;
+	public int typeOfBuildings = 1; // zatial nepozite bud pevnost alebo farma
+	private float waitTime = 5f;
 	private float lastTime = 0f;
+	public Sprite[] spritePlayers;
 
 	private TextMesh textMesh;
 
 	void Start() {
+		/*Sprite sprite = Resources.Load ("priority_green", typeof(Sprite)) as Sprite; 
+
+		print (sprite);*/
+
 		try {
 			textMesh = GetComponentInChildren<TextMesh>();
 			textMesh.text = numberofSoldier.ToString();
@@ -44,8 +49,8 @@ public class Buildings : MonoBehaviour {
 	}
 	
 	public void RemoveSoldier() {
-		numberofSoldier--;
-		textMesh.text = numberofSoldier.ToString();
+			numberofSoldier--;
+			textMesh.text = numberofSoldier.ToString();
 	}
 
 	public int GetNumberOfSoldier() {
@@ -58,5 +63,21 @@ public class Buildings : MonoBehaviour {
 
 	public int GetTypeOfPlayer() {
 		return typeOfPlayer;
+	}
+
+	public void SetTypeOfPlayer(int typeOfPlayer) {
+		this.typeOfPlayer = typeOfPlayer;
+		switch(this.typeOfPlayer) {
+		case 1:
+			print(GameObject.Find("buildingspicture"));
+			GameObject.Find("buildingspicture").GetComponent<SpriteRenderer>().sprite = spritePlayers[0];
+
+		    //gameObject.GetComponentInChildren<SpriteRenderer>().sprite = spritePlayers[0];
+			break;
+		case 2:
+			gameObject.GetComponentInChildren<SpriteRenderer>().sprite = spritePlayers[1];
+			break;
+        // podla poctu nepriatelov
+		}
 	}
 }
