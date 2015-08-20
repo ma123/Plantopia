@@ -1,21 +1,24 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
-public class PlayerController : MonoBehaviour {
+public class PlayerControllerScript : MonoBehaviour {
 	private Transform pointFirst;
 	private Transform pointSecond;
 	private GameObject firstPointObject;
 	public Rigidbody2D rigidBody;
 	Rigidbody2D bulletInstance = null;
-	private float waitTime = 1f;
+	private bool lockTime = false;
+	private int firstId = 0;
 	private int secondId = 0;
-	private bool waitLock = false;
+	private GameObject pathObject;
 
 	// Use this for initialization
 	void Start () {
 		pointFirst = GetComponent<Transform> ();
 		pointSecond = GetComponent<Transform> ();
 		pointFirst = pointSecond = null;
+		pathObject = GameObject.Find ("Path");
 	}
 	
 	// Update is called once per frame
@@ -28,18 +31,22 @@ public class PlayerController : MonoBehaviour {
 
 			if(hits.Length != 0) {
 				selectedObject = hits[0].collider.gameObject;
-				print (selectedObject);
 				for(int i = 1; i < hits.Length; i++) {
-					if(hits[i].collider.gameObject.GetComponent<Renderer>().sortingOrder >= selectedObject.GetComponent<Renderer>().sortingOrder) {
-						selectedObject = hits[i].collider.gameObject;
+					try {
+						if(hits[i].collider.gameObject.GetComponent<Renderer>().sortingOrder >= selectedObject.GetComponent<Renderer>().sortingOrder) {
+							selectedObject = hits[i].collider.gameObject;
+						}
+					} catch {
+						Debug.Log("there is no renderer soldier clone");
 					}
 				}
 
 				try {
 					if(selectedObject.tag == "BuildingsTouchArea") {
 						firstPointObject = selectedObject;
-						if(firstPointObject.GetComponent<Buildings>().GetTypeOfPlayer() == 1) {  // prva suradnica sa uklada iba ked je budova hracova
+						if(firstPointObject.GetComponent<BuildingsScript>().GetTypeOfPlayer() == 1) {  // prva suradnica sa uklada iba ked je budova hracova
 							pointFirst = firstPointObject.transform;
+							firstId = firstPointObject.GetComponent<BuildingsScript>().GetBuildingsId();
 						}
 					}
 				} catch {
@@ -57,16 +64,23 @@ public class PlayerController : MonoBehaviour {
 			if(hits.Length != 0) {
 				selectedObject = hits[0].collider.gameObject;
 				for(int i = 1; i < hits.Length; i++) {
-					if(hits[i].collider.gameObject.GetComponent<Renderer>().sortingOrder >= selectedObject.GetComponent<Renderer>().sortingOrder) {
-						selectedObject = hits[i].collider.gameObject;
+					try {
+						if(hits[i].collider.gameObject.GetComponent<Renderer>().sortingOrder >= selectedObject.GetComponent<Renderer>().sortingOrder) {
+							selectedObject = hits[i].collider.gameObject;
+						}
+					} catch {
+						Debug.Log("there is no renderer soldier clone");
 					}
 				}
 
 				try {
 					if(selectedObject.tag == "BuildingsTouchArea") {
 						if(pointFirst != null) { // druha suradnica sa uklada iba ak prva suradnina nie je null
-							pointSecond = selectedObject.transform;
-							secondId = selectedObject.GetComponent<Buildings>().GetBuildingsId();
+							List<bool> pathList = pathObject.GetComponent<PathScript>().GetPath(firstId); // list kde su ulozene cesty kadial moze byt vzslana armada
+							secondId = selectedObject.GetComponent<BuildingsScript>().GetBuildingsId(); // ziskanie id druhej budovy
+							if(pathList[secondId] == true) { // ak je cesta true tak ulozi suradnicu
+								pointSecond = selectedObject.transform;
+							}
 						}
 					}
 				} catch {
@@ -81,31 +95,26 @@ public class PlayerController : MonoBehaviour {
 			return;
 		} else {
 			if((pointFirst != null) && (pointSecond != null)) {
-				//for(int i = 0; i < 5; i++) {
-					//StartCoroutine(WaitTime());
-				if(firstPointObject.GetComponent<Buildings>().GetNumberOfSoldier() > 0) {
+				 if(firstPointObject.GetComponent<BuildingsScript>().GetNumberOfSoldier() > 0) {
+					StartCoroutine(WaitTime());
 					BulletMove ();
-					firstPointObject.GetComponent<Buildings>().RemoveSoldier();
-				}
-						
-				//}
-					
-
-				pointFirst = pointSecond = null;
+							
+					firstPointObject.GetComponent<BuildingsScript>().RemoveSoldier();
+					pointFirst = pointSecond = null;
+				 }
 			}
 		}
 	}
 
 	IEnumerator WaitTime() {
-		print(Time.time);
-		yield return new WaitForSeconds(1);
-		print(Time.time);
+		yield return new WaitForSeconds(1f);
+
 	}
 	
 	private void BulletMove() {
 		bulletInstance = Instantiate (rigidBody, pointFirst.position, Quaternion.Euler (new Vector3 (0, 0, 0))) as Rigidbody2D;
-		bulletInstance.GetComponent<PlayerSoldier> ().SetSecondPoint (pointSecond);
-	    bulletInstance.GetComponent<PlayerSoldier> ().SetSecondId (secondId);
+		bulletInstance.GetComponent<PlayerSoldierScript> ().SetSecondPoint (pointSecond);
+	    bulletInstance.GetComponent<PlayerSoldierScript> ().SetSecondId (secondId);
 	}
 
 	public Transform GetPointFirst() {

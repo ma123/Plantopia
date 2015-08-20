@@ -1,22 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Buildings : MonoBehaviour {
+public class BuildingsScript : MonoBehaviour {
 	public int buildingId = 0;
 	public int numberofSoldier = 5; 
 	public int typeOfPlayer = 0; // 1 player , 2 neutral, 3 enemy, 4 enemy2 ...
 	public int typeOfBuildings = 1; // zatial nepozite bud pevnost alebo farma
-	private float waitTime = 5f;
+	private float waitPlayerTime = 5f;
+	private float waitEnemyTime = 4f;
 	private float lastTime = 0f;
 	public Sprite[] spritePlayers;
 
 	private TextMesh textMesh;
 
 	void Start() {
-		/*Sprite sprite = Resources.Load ("priority_green", typeof(Sprite)) as Sprite; 
-
-		print (sprite);*/
-
 		try {
 			textMesh = GetComponentInChildren<TextMesh>();
 			textMesh.text = numberofSoldier.ToString();
@@ -26,22 +23,22 @@ public class Buildings : MonoBehaviour {
 	}
 
 	void Update() {
-		if(typeOfPlayer != 2) { // neutral buildings
-			if(Time.time > lastTime + waitTime) {
+		if (typeOfPlayer == 1) { // neutral buildings
+			if (Time.time > lastTime + waitPlayerTime) {
 				numberofSoldier++;
-				textMesh.text = numberofSoldier.ToString();
+				textMesh.text = numberofSoldier.ToString ();
 				lastTime = Time.time;
+			}
+		} else {
+			if(typeOfPlayer == 3) { // neutral buildings
+				if(Time.time > lastTime + waitEnemyTime) {
+					numberofSoldier++;
+					textMesh.text = numberofSoldier.ToString();
+					lastTime = Time.time;
+				}
 			}
 		}
 	}
-
-	/*void OnTriggerEnter2D(Collider2D col) {
-		print ("trigger enter");
-		if (col.tag == "Soldier") {
-			print ("trigger enter destroy");
-			Destroy (col.gameObject);
-		}
-	}*/
 
 	public void AddSoldier() {
 		numberofSoldier++;
@@ -67,15 +64,23 @@ public class Buildings : MonoBehaviour {
 
 	public void SetTypeOfPlayer(int typeOfPlayer) {
 		this.typeOfPlayer = typeOfPlayer;
-		switch(this.typeOfPlayer) {
-		case 1:
-			print(GameObject.Find("buildingspicture"));
-			GameObject.Find("buildingspicture").GetComponent<SpriteRenderer>().sprite = spritePlayers[0];
 
-		    //gameObject.GetComponentInChildren<SpriteRenderer>().sprite = spritePlayers[0];
+		switch(this.typeOfPlayer) {
+		case 1: //player
+			SpriteRenderer[] allChildren = GetComponentsInChildren<SpriteRenderer>();
+			foreach(SpriteRenderer child in allChildren) {
+				if(child.name == "buildingspicture") {
+					child.sprite = spritePlayers[0];
+				}
+			}
 			break;
-		case 2:
-			gameObject.GetComponentInChildren<SpriteRenderer>().sprite = spritePlayers[1];
+		case 3: // enemy 1
+			SpriteRenderer[] allChildrenEnemy = GetComponentsInChildren<SpriteRenderer>();
+			foreach(SpriteRenderer child in allChildrenEnemy) {
+				if(child.name == "buildingspicture") {
+					child.sprite = spritePlayers[1];
+				}
+			}
 			break;
         // podla poctu nepriatelov
 		}

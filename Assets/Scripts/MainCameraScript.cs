@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MainCamera : MonoBehaviour {
+public class MainCameraScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if(Input.GetKey(KeyCode.Escape)) {

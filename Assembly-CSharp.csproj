@@ -46,11 +46,14 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\Buildings.cs" />
-     <Compile Include="Assets\Scripts\MainCamera.cs" />
-     <Compile Include="Assets\Scripts\Path.cs" />
-     <Compile Include="Assets\Scripts\PlayerController.cs" />
-     <Compile Include="Assets\Scripts\PlayerSoldier.cs" />
+     <Compile Include="Assets\Scripts\BuildingsScript.cs" />
+     <Compile Include="Assets\Scripts\CheckWinnerScript.cs" />
+     <Compile Include="Assets\Scripts\EnemyController.cs" />
+     <Compile Include="Assets\Scripts\EnemySoldierScript.cs" />
+     <Compile Include="Assets\Scripts\MainCameraScript.cs" />
+     <Compile Include="Assets\Scripts\PathScript.cs" />
+     <Compile Include="Assets\Scripts\PlayerControllerScript.cs" />
+     <Compile Include="Assets\Scripts\PlayerSoldierScript.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
