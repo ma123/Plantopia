@@ -13,6 +13,7 @@ public class PlayerSoldierScript : MonoBehaviour {
 
 
 	void Update() {
+		print (Random.Range (0, 2));
 		transform.position = Vector2.MoveTowards(transform.position, secondPoint.position, Time.deltaTime* speed); // time deltatime mozny problem pri roydielnych zariadeniach
 	}
 
@@ -58,6 +59,14 @@ public class PlayerSoldierScript : MonoBehaviour {
 				}
 
 				Destroy (gameObject);
+			}
+		} else {  	
+			if(col.tag == "EnemySoldier") {
+				if(Random.Range(0, 2) == 1) {
+					Destroy (gameObject);
+				} else {
+					Destroy (col.gameObject);
+				}
 			}
 		}
 	}
