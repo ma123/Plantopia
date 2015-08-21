@@ -28,7 +28,6 @@ public class EnemySoldierScript : MonoBehaviour {
 			int id = col.gameObject.GetComponentInParent<BuildingsScript> ().GetBuildingsId ();
 			int typeOfPlayer = col.gameObject.GetComponentInParent<BuildingsScript> ().GetTypeOfPlayer ();
 			int numberOfSoldier = col.gameObject.GetComponentInParent<BuildingsScript> ().GetNumberOfSoldier ();
-			print (id + " " + typeOfPlayer + " " + numberOfSoldier + " " + secondId);
 			GameObject buildings = col.gameObject;
 			
 			if (secondId == id) {

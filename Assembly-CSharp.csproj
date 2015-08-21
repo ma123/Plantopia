@@ -48,7 +48,7 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\BuildingsScript.cs" />
      <Compile Include="Assets\Scripts\CheckWinnerScript.cs" />
-     <Compile Include="Assets\Scripts\EnemyController.cs" />
+     <Compile Include="Assets\Scripts\EnemyControllerScript.cs" />
      <Compile Include="Assets\Scripts\EnemySoldierScript.cs" />
      <Compile Include="Assets\Scripts\MainCameraScript.cs" />
      <Compile Include="Assets\Scripts\PathScript.cs" />

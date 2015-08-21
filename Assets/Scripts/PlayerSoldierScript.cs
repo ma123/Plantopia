@@ -7,13 +7,12 @@ public class PlayerSoldierScript : MonoBehaviour {
 	private float speed = 2.0f;
 
 	void Start () {
-		//Destroy (gameObject, 10f);
+		Destroy (gameObject, 10f);
 	}
 
 
 
 	void Update() {
-		print (Random.Range (0, 2));
 		transform.position = Vector2.MoveTowards(transform.position, secondPoint.position, Time.deltaTime* speed); // time deltatime mozny problem pri roydielnych zariadeniach
 	}
 
