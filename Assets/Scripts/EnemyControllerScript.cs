@@ -15,7 +15,7 @@ public class EnemyControllerScript : MonoBehaviour {
 	private Transform pointSecond;
     private int firstId = 0;
 	private int secondId = 0;
-	private float waitEnemyTime = 1f;
+	private float waitEnemyTime = 5f;
 	private float lastTime = 0f;
 	private int buildIndex = 0;
 	private int selectedNode = 0;
@@ -42,7 +42,11 @@ public class EnemyControllerScript : MonoBehaviour {
 			}
 		
 			if(destinationLock) {
-				selectedNode = listEnemyBuildings[Random.Range(0,(listEnemyBuildings.Count))];
+				if(listEnemyBuildings.Count > 0) {
+					selectedNode = listEnemyBuildings[Random.Range(0,listEnemyBuildings.Count)];
+				} else {
+					return;
+				}
 			}
 
 			for(int i = 0; i < buildingsList.Length; i++) {
@@ -74,8 +78,12 @@ public class EnemyControllerScript : MonoBehaviour {
 			}
 
 			if((pointFirst != null) && (pointSecond != null)) {
-				if(secondObject.GetComponent<BuildingsScript>().GetTypeOfPlayer() == enemyType) {
+				if(secondObject.GetComponent<BuildingsScript>().GetTypeOfPlayer() == enemyType) {// problem ked sa tento uzol dobije nepriatel sa stale snazi z neho utocit napriek tomu ze patri inemu hracovi uz
 					destinationLock = true;
+				} else {
+					if(firstObject.GetComponent<BuildingsScript>().GetTypeOfPlayer() != enemyType) {
+						destinationLock = true;
+					}
 				}
 				if(firstObject.GetComponent<BuildingsScript>().GetNumberOfSoldier() > 0) {
 					BulletMove();

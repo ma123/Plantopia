@@ -4,16 +4,18 @@ using System.Collections;
 public class PlayerSoldierScript : MonoBehaviour {
 	private Transform secondPoint;
 	private int secondId; 
-	private float speed = 2.0f;
+	private float speed = 1.0f;
 
 	void Start () {
 		Destroy (gameObject, 10f);
 	}
 
-
-
 	void Update() {
-		transform.position = Vector2.MoveTowards(transform.position, secondPoint.position, Time.deltaTime* speed); // time deltatime mozny problem pri roydielnych zariadeniach
+		try {
+			transform.position = Vector2.MoveTowards(transform.position, secondPoint.position, Time.deltaTime* speed); // time deltatime mozny problem pri roydielnych zariadeniach
+		} catch {
+			Debug.Log("player soldier problem");
+		}
 	}
 
 	public void SetSecondPoint(Transform secondPoint) {
@@ -61,11 +63,11 @@ public class PlayerSoldierScript : MonoBehaviour {
 			}
 		} else {  	
 			if(col.tag == "EnemySoldier") {
-				if(Random.Range(0, 2) == 1) {
+				//if(Random.Range(0, 2) == 1) {
 					Destroy (gameObject);
-				} else {
+				//} else {
 					Destroy (col.gameObject);
-				}
+				//}
 			}
 		}
 	}

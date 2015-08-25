@@ -12,6 +12,8 @@ public class PlayerControllerScript : MonoBehaviour {
 	private int firstId = 0;
 	private int secondId = 0;
 	private GameObject pathObject;
+	private bool zeroLock = true;
+	private int soldierNumber = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -96,25 +98,52 @@ public class PlayerControllerScript : MonoBehaviour {
 		} else {
 			if((pointFirst != null) && (pointSecond != null)) {
 				 if(firstPointObject.GetComponent<BuildingsScript>().GetNumberOfSoldier() > 0) {
-					StartCoroutine(WaitTime());
-					BulletMove ();
-							
-					firstPointObject.GetComponent<BuildingsScript>().RemoveSoldier();
-					pointFirst = pointSecond = null;
+					print (zeroLock);
+					if(zeroLock) {
+						zeroLock = false;
+						StartCoroutine(WaitTime());
+					}
+					//BulletMove();
 				 }
+
+				if(zeroLock) {
+					pointFirst = pointSecond = null;
+				}
+
 			}
 		}
 	}
 
-	IEnumerator WaitTime() {
-		yield return new WaitForSeconds(1f);
+	/*public IEnumerator WaitTime(System.Action callback) {
+			print(callback);
+			yield return new WaitForSeconds(3f);
+			callback ();
 
+		yield return null;
+	}*/
+
+	public IEnumerator WaitTime() {
+		if (soldierNumber < 5) {
+			BulletMove ();
+			soldierNumber++;
+
+			yield return new WaitForSeconds (0.4f);
+
+		} else {
+			soldierNumber = 0;
+		}
+		zeroLock = true;
 	}
 	
 	private void BulletMove() {
-		bulletInstance = Instantiate (rigidBody, pointFirst.position, Quaternion.Euler (new Vector3 (0, 0, 0))) as Rigidbody2D;
-		bulletInstance.GetComponent<PlayerSoldierScript> ().SetSecondPoint (pointSecond);
-	    bulletInstance.GetComponent<PlayerSoldierScript> ().SetSecondId (secondId);
+			try {
+				bulletInstance = Instantiate (rigidBody, pointFirst.position, Quaternion.Euler (new Vector3 (0, 0, 0))) as Rigidbody2D;
+				bulletInstance.GetComponent<PlayerSoldierScript> ().SetSecondPoint (pointSecond);
+				bulletInstance.GetComponent<PlayerSoldierScript> ().SetSecondId (secondId);
+				firstPointObject.GetComponent<BuildingsScript>().RemoveSoldier();
+			} catch {
+				Debug.Log("exception soldier from prefab");
+			}
 	}
 
 	public Transform GetPointFirst() {

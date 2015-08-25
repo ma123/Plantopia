@@ -6,8 +6,8 @@ public class BuildingsScript : MonoBehaviour {
 	public int numberofSoldier = 5; 
 	public int typeOfPlayer = 0; // 1 player , 2 neutral, 3 enemy, 4 enemy2 ...
 	public int typeOfBuildings = 1; // zatial nepozite bud pevnost alebo farma
-	private float waitPlayerTime = 2f;
-	private float waitEnemyTime = 2f;
+	private float waitPlayerTime = 5f;
+	private float waitEnemyTime = 6f;
 	private float lastTime = 0f;
 	public Sprite[] spritePlayers;
 
@@ -73,6 +73,8 @@ public class BuildingsScript : MonoBehaviour {
 					child.sprite = spritePlayers[0];
 				}
 			}
+			numberofSoldier = -1;
+			textMesh.text = numberofSoldier.ToString();
 			break;
 		case 3: // enemy 1
 			SpriteRenderer[] allChildrenEnemy = GetComponentsInChildren<SpriteRenderer>();
@@ -81,6 +83,8 @@ public class BuildingsScript : MonoBehaviour {
 					child.sprite = spritePlayers[1];
 				}
 			}
+			numberofSoldier = -1;
+			textMesh.text = numberofSoldier.ToString();
 			break;
         // podla poctu nepriatelov
 		}
