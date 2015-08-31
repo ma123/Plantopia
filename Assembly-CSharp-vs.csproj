@@ -51,6 +51,8 @@
      <Compile Include="Assets\Scripts\Game\EnemyControllerScript.cs" />
      <Compile Include="Assets\Scripts\Game\EnemySoldierRedScript.cs" />
      <Compile Include="Assets\Scripts\Game\EnemySoldierVioletScript.cs" />
+     <Compile Include="Assets\Scripts\Game\FortAttackScript.cs" />
+     <Compile Include="Assets\Scripts\Game\FortBulletScript.cs" />
      <Compile Include="Assets\Scripts\Game\MainCameraScript.cs" />
      <Compile Include="Assets\Scripts\Game\PathScript.cs" />
      <Compile Include="Assets\Scripts\Game\PlayerControllerScript.cs" />

@@ -68,11 +68,19 @@ public class PlayerSoldierScript : MonoBehaviour {
 				Destroy (gameObject);
 			}
 		} else {  	
-			if(col.tag == "EnemySoldier") {
+			if(col.tag == "EnemySoldierRed") {
 				//if(Random.Range(0, 2) == 1) {
 					Destroy (gameObject);
 				//} else {
 					Destroy (col.gameObject);
+				//}
+			}
+
+			if(col.tag == "EnemySoldierViolet") {
+				//if(Random.Range(0, 2) == 1) {
+				Destroy (gameObject);
+				//} else {
+				Destroy (col.gameObject);
 				//}
 			}
 		}

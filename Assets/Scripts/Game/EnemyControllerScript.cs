@@ -13,7 +13,6 @@ public class EnemyControllerScript : MonoBehaviour {
 	private GameObject secondObject;
 	private Transform pointFirst;
 	private Transform pointSecond;
-    private int firstId = 0;
 	private int secondId = 0;
 	private float waitEnemyTime = 1f;
 	private float lastTime = 0f;

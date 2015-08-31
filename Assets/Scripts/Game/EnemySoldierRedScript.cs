@@ -66,6 +66,22 @@ public class EnemySoldierRedScript : MonoBehaviour {
 				}
 				Destroy (gameObject);
 			}
-		} 
+		} else {
+			if(col.tag == "EnemySoldierViolet") {
+				//if(Random.Range(0, 2) == 1) {
+				Destroy (gameObject);
+				//} else {
+				Destroy (col.gameObject);
+				//}
+			}
+			
+			if(col.tag == "PlayerSoldier") {
+				//if(Random.Range(0, 2) == 1) {
+				Destroy (gameObject);
+				//} else {
+				Destroy (col.gameObject);
+				//}
+			}
+		}
 	}
 }

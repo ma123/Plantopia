@@ -64,9 +64,25 @@ public class EnemySoldierVioletScript : MonoBehaviour {
 					buildings.GetComponentInParent<BuildingsScript> ().AddSoldier ();
 					break;
 					
-			}	
+				}	
 				
 				Destroy (gameObject);
+			}
+		} else {
+			if(col.tag == "EnemySoldierRed") {
+				//if(Random.Range(0, 2) == 1) {
+				Destroy (gameObject);
+				//} else {
+				Destroy (col.gameObject);
+				//}
+			}
+
+			if(col.tag == "PlayerSoldier") {
+				//if(Random.Range(0, 2) == 1) {
+				Destroy (gameObject);
+				//} else {
+				Destroy (col.gameObject);
+				//}
 			}
 		} 
 	}
