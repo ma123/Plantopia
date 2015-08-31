@@ -7,13 +7,9 @@ public class PlayerControllerScript : MonoBehaviour {
 	private Transform pointSecond;
 	private GameObject firstPointObject;
 	private GameObject selectedObject = null;
-	public Rigidbody2D rigidBody;
-	Rigidbody2D bulletInstance = null;
 	private int firstId = 0;
 	private int secondId = 0;
 	private GameObject pathObject;
-	private bool zeroLock = true;
-	private int soldierNumber = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -66,18 +62,11 @@ public class PlayerControllerScript : MonoBehaviour {
 			return;
 		} else {
 			if((pointFirst != null) && (pointSecond != null)) {
-				 if(firstPointObject.GetComponent<BuildingsScript>().GetNumberOfSoldier() > 0) {
-					if(zeroLock) {
-						zeroLock = false;
-						StartCoroutine(WaitTime());
-					}
-					//BulletMove();
-				 }
-
-				if(zeroLock) {
-					pointFirst = pointSecond = null;
-				}
-
+				this.GetComponent<SendSoldierScript>().SetZeroLock(true);
+				this.GetComponent<SendSoldierScript>().SetFirstPoint(pointFirst);
+				this.GetComponent<SendSoldierScript>().SetSecondPoint(pointSecond);
+				this.GetComponent<SendSoldierScript>().SetSecondId(secondId);
+				pointFirst = pointSecond = null;
 			}
 		}
 	}
@@ -98,30 +87,6 @@ public class PlayerControllerScript : MonoBehaviour {
 				}
 			}
 		}
-	}
-
-	public IEnumerator WaitTime() {
-		if (soldierNumber < 2) {
-			BulletMove ();
-			soldierNumber++;
-
-			yield return new WaitForSeconds (0.35f);
-
-		} else {
-			soldierNumber = 0;
-		}
-		zeroLock = true;
-	}
-	
-	private void BulletMove() {
-			try {
-				bulletInstance = Instantiate (rigidBody, pointFirst.position, Quaternion.Euler (new Vector3 (0, 0, 0))) as Rigidbody2D;
-				bulletInstance.GetComponent<PlayerSoldierScript> ().SetSecondPoint (pointSecond);
-				bulletInstance.GetComponent<PlayerSoldierScript> ().SetSecondId (secondId);
-				firstPointObject.GetComponent<BuildingsScript>().RemoveSoldier();
-			} catch {
-				Debug.Log("exception soldier from prefab");
-			}
 	}
 
 	public Transform GetPointFirst() {

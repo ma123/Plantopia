@@ -55,6 +55,7 @@
      <Compile Include="Assets\Scripts\Game\PathScript.cs" />
      <Compile Include="Assets\Scripts\Game\PlayerControllerScript.cs" />
      <Compile Include="Assets\Scripts\Game\PlayerSoldierScript.cs" />
+     <Compile Include="Assets\Scripts\Game\SendSoldierScript.cs" />
      <Compile Include="Assets\Scripts\LevelSelector\ControlLevelSelectorScript.cs" />
      <Compile Include="Assets\Scripts\LevelSelector\LevelSelectionScript.cs" />
      <Compile Include="Assets\Scripts\MainMenu\PanelManagerScript.cs" />
