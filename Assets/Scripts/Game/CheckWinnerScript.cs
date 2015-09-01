@@ -5,25 +5,47 @@ using System.Collections.Generic;
 public class CheckWinnerScript : MonoBehaviour {
 	private GameObject[] buildingsList; 
 	private bool winner = false;
+	private bool loser = false;
+	private int enemy = 0;
+	private int player = 0;
+	public GameObject winPanel;
+	public GameObject lossPanel;
 
-	// Use this for initialization
 	void Start () {
 		buildingsList = GameObject.FindGameObjectsWithTag ("BuildingsTouchArea");
 	}
-	
-	// Update is called once per frame
+
 	void Update () {
 		for(int i = 0; i < buildingsList.Length; i++) {
 			if((buildingsList[i].GetComponent<BuildingsScript>().GetTypeOfPlayer() == 3) || (buildingsList[i].GetComponent<BuildingsScript>().GetTypeOfPlayer() == 4)) { // popripade iny hraci
-				winner = false;
-				return;
+				enemy++;
 			} else {
-				winner = true;
+				if(buildingsList[i].GetComponent<BuildingsScript>().GetTypeOfPlayer() == 1) { // popripade iny hraci
+					player++;
+				}
 			}
 		}
 
-		if(winner) {
-			print ("Vyhral si");
+		if(enemy == 0) {
+			winner = true;
 		}
+
+		if(player == 0) {
+			loser = true;
+		}
+		enemy = player = 0;
+	}
+
+	void OnGUI() {
+		if (winner) {
+			Time.timeScale = 0; // pauznutie hry
+			winPanel.SetActive(true);
+			winner = false;
+		} 
+		if (loser) {
+			Time.timeScale = 0; // pauznutie hry
+			lossPanel.SetActive(true);
+			loser = false;
+		} 
 	}
 }

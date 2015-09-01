@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
+using System.IO;  
 
 public class PathScript : MonoBehaviour {
 	//private bool[,] array = new bool[,]{{false, true, true, false},{true, false, false, true},{true, false, false, true},{false, true, true, false}}; // obdlznik 4x4

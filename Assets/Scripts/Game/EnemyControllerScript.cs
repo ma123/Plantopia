@@ -14,7 +14,7 @@ public class EnemyControllerScript : MonoBehaviour {
 	private Transform pointFirst;
 	private Transform pointSecond;
 	private int secondId = 0;
-	private float waitEnemyTime = 1f;
+	public float waitEnemyTime = 0.5f;
 	private float lastTime = 0f;
 	private int buildIndex = 0;
 	private int selectedNode = 0;
