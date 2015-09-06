@@ -2,26 +2,51 @@
 using System.Collections;
 
 public class PlayerSoldierScript : MonoBehaviour {
+	private Transform firstPoint;
 	private Transform secondPoint;
 	private int secondId; 
 	private float speed = 1f;
+	private float waitTime = 0f;
+	private bool stopLock = true;
+	private bool waitLock = false;
 
 	void Start () {
-		Destroy (gameObject, 10f);
+		Destroy (gameObject, 30f);
 	}
 
 	void Update() {
 		try {
-			transform.position = Vector2.MoveTowards(transform.position, secondPoint.position, Time.deltaTime* speed); // time deltatime mozny problem pri roydielnych zariadeniach
+			if(stopLock) {
+				stopLock = false;
+				StartCoroutine (WaitMoment());
+			}
+
+			if(waitLock) {
+				transform.position = Vector2.MoveTowards(transform.position, secondPoint.position, Time.deltaTime* speed); // time deltatime mozny problem pri roydielnych zariadeniach
+			}
 		} catch {
 			Debug.Log("player soldier problem");
 		}
+	}
+
+	public IEnumerator WaitMoment() {
+		yield return new WaitForSeconds (waitTime);
+		waitLock = true;
+		firstPoint.GetComponent<BuildingsScript>().RemoveSoldier();
+	}
+
+	public void SetFirstPoint(Transform firstPoint) {
+		this.firstPoint = firstPoint;
 	}
 
 	public void SetSecondPoint(Transform secondPoint) {
 		this.secondPoint = secondPoint;
 	}
 
+	public void SetWaitTime(float waitTime) {
+		this.waitTime = waitTime;
+	}
+	
 	public void SetSecondId(int secondId) {
 		this.secondId = secondId;
 	}

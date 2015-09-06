@@ -9,49 +9,49 @@ public class SendSoldierScript: MonoBehaviour {
 	private Transform pointFirst;
 	private Transform pointSecond;
 	private int secondId;
+	private bool stopLock = true;
+	private float waitTime = 0f;
 
-	// Use this for initialization
 	void Start () {
 		pointFirst = GetComponent<Transform> ();
 		pointSecond = GetComponent<Transform> ();
 	}
 
-	// Update is called once per frame
 	void Update () {
 		if(zeroLock) {
+			stopLock = false;
 			zeroLock = false;
+
 			try {
 				int numberInBuilding = (pointFirst.GetComponent<BuildingsScript>().GetNumberOfSoldier() / 2);
-				StartCoroutine(WaitTime(numberInBuilding));
+				while(soldierNumber < numberInBuilding) {
+					BulletMove();
+					soldierNumber++;
+				}
+				
+				soldierNumber = 0;
+				zeroLock = true;
 			} catch {
-				Debug.Log("null exception startcoroutine bullet");
+				Debug.Log("null exception send army");
 			}
 		}
 
 		if(zeroLock) {
 			pointFirst = pointSecond = null;
 			zeroLock = false;
+			stopLock = true;
+			waitTime = 0f;
 		}
-	}
-
-	public IEnumerator WaitTime(int numberInBuilding) {
-		if (soldierNumber < numberInBuilding) {
-			BulletMove ();
-			soldierNumber++;
-			yield return new WaitForSeconds (0.35f);
-		} else {
-			soldierNumber = 0;
-		}
-		zeroLock = true;
 	}
 
 	private void BulletMove() {
 		try {
-			if(pointFirst.GetComponent<BuildingsScript>().GetNumberOfSoldier() > 0) {
+			if(0 < pointFirst.GetComponent<BuildingsScript>().GetNumberOfSoldier()) {
 				bulletInstance = Instantiate (rigidBody, pointFirst.position, Quaternion.Euler (new Vector3 (0, 0, 0))) as Rigidbody2D;
+				bulletInstance.GetComponent<PlayerSoldierScript> ().SetFirstPoint (pointFirst);
 				bulletInstance.GetComponent<PlayerSoldierScript> ().SetSecondPoint (pointSecond);
 				bulletInstance.GetComponent<PlayerSoldierScript> ().SetSecondId (secondId);
-				pointFirst.GetComponent<BuildingsScript>().RemoveSoldier();
+				bulletInstance.GetComponent<PlayerSoldierScript> ().SetWaitTime (waitTime+=0.35f);
 			} else {
 				return;
 			}
@@ -62,6 +62,10 @@ public class SendSoldierScript: MonoBehaviour {
 
 	public void SetZeroLock(bool zeroLock) {
 		this.zeroLock = zeroLock;
+	}
+
+	public bool GetStopLock() {
+		return stopLock;
 	}
 
 	public void SetFirstPoint(Transform firstPoint) {

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Threading;
 using System.Collections.Generic;
 
 public class PlayerControllerScript : MonoBehaviour {
@@ -10,6 +11,7 @@ public class PlayerControllerScript : MonoBehaviour {
 	private int firstId = 0;
 	private int secondId = 0;
 	private GameObject pathObject;
+	private Color markColor;
 
 	// Use this for initialization
 	void Start () {
@@ -17,6 +19,8 @@ public class PlayerControllerScript : MonoBehaviour {
 		pointSecond = GetComponent<Transform> ();
 		pointFirst = pointSecond = null;
 		pathObject = GameObject.Find ("Path");
+		markColor = new Color (0.777f, 0.8f, 0.604f);
+		markColor.a = 0.3f;
 	}
 	
 	// Update is called once per frame
@@ -27,7 +31,9 @@ public class PlayerControllerScript : MonoBehaviour {
 				try {
 					if(selectedObject.tag == "BuildingsTouchArea") {
 						firstPointObject = selectedObject;
+						
 						if(firstPointObject.GetComponent<BuildingsScript>().GetTypeOfPlayer() == 1) {  // prva suradnica sa uklada iba ked je budova hracova
+							//firstPointObject.GetComponent<SpriteRenderer>().color = markColor;
 							pointFirst = firstPointObject.transform;
 							firstId = firstPointObject.GetComponent<BuildingsScript>().GetBuildingsId();
 						}
@@ -62,13 +68,19 @@ public class PlayerControllerScript : MonoBehaviour {
 			return;
 		} else {
 			if((pointFirst != null) && (pointSecond != null)) {
-				this.GetComponent<SendSoldierScript>().SetZeroLock(true);
-				this.GetComponent<SendSoldierScript>().SetFirstPoint(pointFirst);
-				this.GetComponent<SendSoldierScript>().SetSecondPoint(pointSecond);
-				this.GetComponent<SendSoldierScript>().SetSecondId(secondId);
-				pointFirst = pointSecond = null;
+				if(this.GetComponent<SendSoldierScript>().GetStopLock()) { // dalsie vyslanie az po vyslani z uzlu
+					SettingSender();
+					pointFirst = pointSecond = null;
+				}
 			}
 		}
+	}
+	
+	private void SettingSender() {
+		this.GetComponent<SendSoldierScript>().SetZeroLock(true);
+		this.GetComponent<SendSoldierScript>().SetFirstPoint(pointFirst);
+		this.GetComponent<SendSoldierScript>().SetSecondPoint(pointSecond);
+		this.GetComponent<SendSoldierScript>().SetSecondId(secondId);
 	}
 
 	private void ClickMousePlayer() {
