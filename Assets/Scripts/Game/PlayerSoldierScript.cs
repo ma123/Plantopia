@@ -5,7 +5,7 @@ public class PlayerSoldierScript : MonoBehaviour {
 	private Transform firstPoint;
 	private Transform secondPoint;
 	private int secondId; 
-	private float speed = 1f;
+	public float speed = 1f;
 	private float waitTime = 0f;
 	private bool stopLock = true;
 	private bool waitLock = false;
@@ -32,7 +32,9 @@ public class PlayerSoldierScript : MonoBehaviour {
 	public IEnumerator WaitMoment() {
 		yield return new WaitForSeconds (waitTime);
 		waitLock = true;
-		firstPoint.GetComponent<BuildingsScript>().RemoveSoldier();
+		/*if(firstPoint.GetComponent<BuildingsScript>().GetNumberOfSoldier() > 0) {
+			firstPoint.GetComponent<BuildingsScript>().RemoveSoldier();
+		}*/
 	}
 
 	public void SetFirstPoint(Transform firstPoint) {

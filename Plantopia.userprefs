@@ -2,8 +2,11 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Game\SendSoldierScript.cs">
     <Files>
-      <File FileName="Assets\Scripts\Game\PlayerSoldierScript.cs" Line="34" Column="19" />
-      <File FileName="Assets\Scripts\Game\SendSoldierScript.cs" Line="54" Column="87" />
+      <File FileName="Assets\Scripts\Game\PlayerControllerScript.cs" Line="99" Column="64" />
+      <File FileName="Assets\Scripts\Game\SendSoldierScript.cs" Line="54" Column="100" />
+      <File FileName="Assets\Scripts\Game\CheckWinnerScript.cs" Line="51" Column="24" />
+      <File FileName="Assets\Scripts\Game\ReactionFromPanelScript.cs" Line="19" Column="64" />
+      <File FileName="Assets\Scripts\Game\PlayerSoldierScript.cs" Line="36" Column="62" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

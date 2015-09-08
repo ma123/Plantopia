@@ -96,7 +96,7 @@ public class BuildingsScript : MonoBehaviour {
 				}
 			break;
 		}
-			numberofSoldier = -1;
+			numberofSoldier = 0;
 			textMesh.text = numberofSoldier.ToString();
         // podla poctu nepriatelov
 		

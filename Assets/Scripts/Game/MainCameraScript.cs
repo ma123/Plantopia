@@ -8,15 +8,8 @@ public class MainCameraScript : MonoBehaviour {
 	public int borderZ = 0;
 	private Vector3 pos;
 
-	void Start() {
+	public void Start() {
 		pos = transform.position;
-		Time.timeScale = 1; // pauznutie hry
-	}
-	// Update is called once per frame
-	void Update () {
-		if (Input.GetKeyDown (KeyCode.Escape)) { 
-			Application.LoadLevel("LevelSelectorScene"); 
-		}
 	}
 
 	public void MoveRight() {

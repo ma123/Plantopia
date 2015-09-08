@@ -6,12 +6,12 @@ using System.Collections.Generic;
 public class PlayerControllerScript : MonoBehaviour {
 	private Transform pointFirst;
 	private Transform pointSecond;
-	private GameObject firstPointObject;
 	private GameObject selectedObject = null;
 	private int firstId = 0;
 	private int secondId = 0;
 	private GameObject pathObject;
 	private Color markColor;
+	private Color whiteColor;
 
 	// Use this for initialization
 	void Start () {
@@ -20,7 +20,9 @@ public class PlayerControllerScript : MonoBehaviour {
 		pointFirst = pointSecond = null;
 		pathObject = GameObject.Find ("Path");
 		markColor = new Color (0.777f, 0.8f, 0.604f);
-		markColor.a = 0.3f;
+		markColor.a = 0.4f;
+		whiteColor = Color.white;
+		whiteColor.a = 0.0f;
 	}
 	
 	// Update is called once per frame
@@ -30,12 +32,10 @@ public class PlayerControllerScript : MonoBehaviour {
 			print ("Click down");
 				try {
 					if(selectedObject.tag == "BuildingsTouchArea") {
-						firstPointObject = selectedObject;
-						
-						if(firstPointObject.GetComponent<BuildingsScript>().GetTypeOfPlayer() == 1) {  // prva suradnica sa uklada iba ked je budova hracova
-							//firstPointObject.GetComponent<SpriteRenderer>().color = markColor;
-							pointFirst = firstPointObject.transform;
-							firstId = firstPointObject.GetComponent<BuildingsScript>().GetBuildingsId();
+						if(selectedObject.GetComponent<BuildingsScript>().GetTypeOfPlayer() == 1) {  // prva suradnica sa uklada iba ked je budova hracova
+							pointFirst = selectedObject.transform;
+							pointFirst.GetComponent<SpriteRenderer>().color = markColor; // vyfarbenie prveho bodu kurzor 
+							firstId = pointFirst.GetComponent<BuildingsScript>().GetBuildingsId();
 						}
 					}
 				} catch {
@@ -53,6 +53,12 @@ public class PlayerControllerScript : MonoBehaviour {
 							secondId = selectedObject.GetComponent<BuildingsScript>().GetBuildingsId(); // ziskanie id druhej budovy
 							if(pathList[secondId] == true) { // ak je cesta true tak ulozi suradnicu
 								pointSecond = selectedObject.transform;
+								pointSecond.GetComponent<SpriteRenderer>().color = markColor;
+							} else {
+								if(selectedObject.GetComponent<BuildingsScript>().GetTypeOfPlayer() == 1) {
+									pointSecond = selectedObject.transform;
+									pointSecond.GetComponent<SpriteRenderer>().color = markColor;
+								}
 							}
 						}
 					}
@@ -61,21 +67,31 @@ public class PlayerControllerScript : MonoBehaviour {
 				}
 		}
 
+
+
 		if ((pointFirst == pointSecond) && (pointFirst != null) && (pointSecond != null)) {
-			print ("Su body su rovnake");
+			print ("Body su rovnake");
+			StartCoroutine(WaitMoment(pointFirst, pointSecond));
 			pointFirst = pointSecond = null;
 			// todo upgrade budov
 			return;
 		} else {
 			if((pointFirst != null) && (pointSecond != null)) {
-				if(this.GetComponent<SendSoldierScript>().GetStopLock()) { // dalsie vyslanie az po vyslani z uzlu
-					SettingSender();
-					pointFirst = pointSecond = null;
-				}
+
+				SettingSender();
+				StartCoroutine(WaitMoment(pointFirst, pointSecond));
+				pointFirst = pointSecond = null;
 			}
+
 		}
 	}
-	
+
+	IEnumerator WaitMoment(Transform first, Transform second) {
+		yield return new WaitForSeconds(0.5f);
+		first.GetComponent<SpriteRenderer>().color = whiteColor;
+		second.GetComponent<SpriteRenderer>().color = whiteColor;
+	}
+
 	private void SettingSender() {
 		this.GetComponent<SendSoldierScript>().SetZeroLock(true);
 		this.GetComponent<SendSoldierScript>().SetFirstPoint(pointFirst);

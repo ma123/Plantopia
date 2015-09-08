@@ -9,8 +9,9 @@ public class SendSoldierScript: MonoBehaviour {
 	private Transform pointFirst;
 	private Transform pointSecond;
 	private int secondId;
+	private float waitTime = -0.35f;
 	private bool stopLock = true;
-	private float waitTime = 0f;
+	public AudioClip sendArmyClip;
 
 	void Start () {
 		pointFirst = GetComponent<Transform> ();
@@ -19,14 +20,18 @@ public class SendSoldierScript: MonoBehaviour {
 
 	void Update () {
 		if(zeroLock) {
-			stopLock = false;
 			zeroLock = false;
+			stopLock = false;
 
 			try {
 				int numberInBuilding = (pointFirst.GetComponent<BuildingsScript>().GetNumberOfSoldier() / 2);
+				if(numberInBuilding > 0) {
+					AudioSource.PlayClipAtPoint(sendArmyClip, transform.position); // prehranie send zvuku
+				}
 				while(soldierNumber < numberInBuilding) {
 					BulletMove();
 					soldierNumber++;
+					pointFirst.GetComponent<BuildingsScript>().RemoveSoldier();
 				}
 				
 				soldierNumber = 0;
@@ -46,15 +51,11 @@ public class SendSoldierScript: MonoBehaviour {
 
 	private void BulletMove() {
 		try {
-			if(0 < pointFirst.GetComponent<BuildingsScript>().GetNumberOfSoldier()) {
-				bulletInstance = Instantiate (rigidBody, pointFirst.position, Quaternion.Euler (new Vector3 (0, 0, 0))) as Rigidbody2D;
-				bulletInstance.GetComponent<PlayerSoldierScript> ().SetFirstPoint (pointFirst);
-				bulletInstance.GetComponent<PlayerSoldierScript> ().SetSecondPoint (pointSecond);
-				bulletInstance.GetComponent<PlayerSoldierScript> ().SetSecondId (secondId);
-				bulletInstance.GetComponent<PlayerSoldierScript> ().SetWaitTime (waitTime+=0.35f);
-			} else {
-				return;
-			}
+			bulletInstance = Instantiate (rigidBody, pointFirst.position, Quaternion.Euler (new Vector3 (0, 0, 0))) as Rigidbody2D;
+			bulletInstance.GetComponent<PlayerSoldierScript> ().SetFirstPoint (pointFirst);
+			bulletInstance.GetComponent<PlayerSoldierScript> ().SetSecondPoint (pointSecond);
+			bulletInstance.GetComponent<PlayerSoldierScript> ().SetSecondId (secondId);
+			bulletInstance.GetComponent<PlayerSoldierScript> ().SetWaitTime (waitTime+=0.35f);
 		} catch {
 			Debug.Log("exception soldier from prefab");
 		}
@@ -62,10 +63,6 @@ public class SendSoldierScript: MonoBehaviour {
 
 	public void SetZeroLock(bool zeroLock) {
 		this.zeroLock = zeroLock;
-	}
-
-	public bool GetStopLock() {
-		return stopLock;
 	}
 
 	public void SetFirstPoint(Transform firstPoint) {
@@ -78,5 +75,9 @@ public class SendSoldierScript: MonoBehaviour {
 
 	public void SetSecondId(int secondId) {
 		this.secondId = secondId;
+	}
+
+	public bool GetStopLock() {
+		return stopLock;
 	}
 }

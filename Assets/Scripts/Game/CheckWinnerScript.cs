@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI; 
 using System.Collections;
 using System.Collections.Generic;
 
@@ -9,7 +10,6 @@ public class CheckWinnerScript : MonoBehaviour {
 	private int enemy = 0;
 	private int player = 0;
 	public GameObject winPanel;
-	public GameObject lossPanel;
 
 	void Start () {
 		buildingsList = GameObject.FindGameObjectsWithTag ("BuildingsTouchArea");
@@ -40,11 +40,17 @@ public class CheckWinnerScript : MonoBehaviour {
 		if (winner) {
 			Time.timeScale = 0; // pauznutie hry
 			winPanel.SetActive(true);
+			GameObject btnInteractable = GameObject.Find("BackToGameBtn");
+			btnInteractable.GetComponent<Button>().interactable = false;
 			winner = false;
 		} 
 		if (loser) {
 			Time.timeScale = 0; // pauznutie hry
-			lossPanel.SetActive(true);
+			winPanel.SetActive(true);
+			GameObject btnInteractable = GameObject.Find("NextLvlBtn");
+			btnInteractable.GetComponent<Button>().interactable = false;
+			GameObject btnInteractableBack = GameObject.Find("BackToGameBtn");
+			btnInteractableBack.GetComponent<Button>().interactable = false;
 			loser = false;
 		} 
 	}
