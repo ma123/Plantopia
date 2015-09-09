@@ -50,15 +50,16 @@
      <Compile Include="Assets\Scripts\Game\CheckWinnerScript.cs" />
      <Compile Include="Assets\Scripts\Game\EnemyControllerScript.cs" />
      <Compile Include="Assets\Scripts\Game\EnemySoldierRedScript.cs" />
+     <Compile Include="Assets\Scripts\Game\EnemySoldierSenderScript.cs" />
      <Compile Include="Assets\Scripts\Game\EnemySoldierVioletScript.cs" />
      <Compile Include="Assets\Scripts\Game\FortAttackScript.cs" />
      <Compile Include="Assets\Scripts\Game\FortBulletScript.cs" />
      <Compile Include="Assets\Scripts\Game\MainCameraScript.cs" />
      <Compile Include="Assets\Scripts\Game\PathScript.cs" />
+     <Compile Include="Assets\Scripts\Game\PlayeSoldierSenderScript.cs" />
      <Compile Include="Assets\Scripts\Game\PlayerControllerScript.cs" />
      <Compile Include="Assets\Scripts\Game\PlayerSoldierScript.cs" />
      <Compile Include="Assets\Scripts\Game\ReactionFromPanelScript.cs" />
-     <Compile Include="Assets\Scripts\Game\SendSoldierScript.cs" />
      <Compile Include="Assets\Scripts\LevelSelector\ControlLevelSelectorScript.cs" />
      <Compile Include="Assets\Scripts\LevelSelector\LevelSelectionScript.cs" />
      <Compile Include="Assets\Scripts\MainMenu\PanelManagerScript.cs" />

@@ -93,10 +93,10 @@ public class PlayerControllerScript : MonoBehaviour {
 	}
 
 	private void SettingSender() {
-		this.GetComponent<SendSoldierScript>().SetZeroLock(true);
-		this.GetComponent<SendSoldierScript>().SetFirstPoint(pointFirst);
-		this.GetComponent<SendSoldierScript>().SetSecondPoint(pointSecond);
-		this.GetComponent<SendSoldierScript>().SetSecondId(secondId);
+		this.GetComponent<PlayeSoldierSenderScript>().SetZeroLock(true);
+		this.GetComponent<PlayeSoldierSenderScript>().SetFirstPoint(pointFirst);
+		this.GetComponent<PlayeSoldierSenderScript>().SetSecondPoint(pointSecond);
+		this.GetComponent<PlayeSoldierSenderScript>().SetSecondId(secondId);
 	}
 
 	private void ClickMousePlayer() {

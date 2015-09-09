@@ -7,15 +7,9 @@ public class EnemyControllerScript : MonoBehaviour {
 	private GameObject[] buildingsList;
 	private GameObject pathObject;
 
-	public Rigidbody2D rigidBody;
-	private Rigidbody2D bulletInstance = null;
-	private GameObject firstObject;
-	private GameObject secondObject;
 	private Transform pointFirst;
 	private Transform pointSecond;
 	private int secondId = 0;
-	public float waitEnemyTime = 0.5f;
-	private float lastTime = 0f;
 	private int buildIndex = 0;
 	private int selectedNode = 0;
 	private bool destinationLock = true;
@@ -31,18 +25,17 @@ public class EnemyControllerScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(Time.time > waitEnemyTime + lastTime) {
-			List<int> listEnemyBuildings = new List<int>();
+			List<int> listEnemyBuildings = new List<int>(); // inicializacia listu nepriatelskych budov
 
 			for(int i = 0; i < buildingsList.Length; i++) {
-				if((buildingsList[i].GetComponent<BuildingsScript>().GetTypeOfPlayer() == enemyType)) { // popripade iny hraci
-					listEnemyBuildings.Add(buildingsList[i].GetComponent<BuildingsScript>().GetBuildingsId());
+				if((buildingsList[i].GetComponent<BuildingsScript>().GetTypeOfPlayer() == enemyType)) { // najdem vsetkych nepriatelov jedneho typu napr cerveny
+					listEnemyBuildings.Add(buildingsList[i].GetComponent<BuildingsScript>().GetBuildingsId()); // pridanie id budovy do listu
 				}
 			}
 		
-			if(destinationLock) {
-				if(listEnemyBuildings.Count > 0) {
-					selectedNode = listEnemyBuildings[Random.Range(0,listEnemyBuildings.Count)];
+			if(destinationLock) { // zamok na utocenie na urcitu budovu
+				if(listEnemyBuildings.Count > 0) { 
+					selectedNode = listEnemyBuildings[Random.Range(0,listEnemyBuildings.Count)]; // vyberie nahodne jednu z budov nepriatela
 				} else {
 					return;
 				}
@@ -50,16 +43,15 @@ public class EnemyControllerScript : MonoBehaviour {
 
 			for(int i = 0; i < buildingsList.Length; i++) {
 				if((buildingsList[i].GetComponent<BuildingsScript>().GetBuildingsId() == selectedNode)) {
-					firstObject = buildingsList[i];
-					pointFirst = buildingsList[i].transform;
+					pointFirst = buildingsList[i].transform; // vyber prveho bodu z ktoreho sa bdue utocit
 				}
 			}
 			
-			List<bool> pathList = pathObject.GetComponent<PathScript>().GetPath(selectedNode);
+			List<bool> pathList = pathObject.GetComponent<PathScript>().GetPath(selectedNode); // list ciest podla vybraneho uzlu z ktoreho utocime
 
-			if(destinationLock) {
+			if(destinationLock) { 
 				while(true) {
-					int randomNumber = Random.Range(0,(pathList.Count));
+					int randomNumber = Random.Range(0,(pathList.Count)); // nahodny vyber cesty ku uzlu
 					if(pathList[randomNumber]) {
 						buildIndex = randomNumber;
 						destinationLock = false;
@@ -70,48 +62,33 @@ public class EnemyControllerScript : MonoBehaviour {
 
 			for(int i = 0; i < buildingsList.Length; i++) {
 				if((buildingsList[i].GetComponent<BuildingsScript>().GetBuildingsId() == buildIndex)) { // popripade iny hraci
-					secondObject = buildingsList[i];
-					secondId = secondObject.GetComponent<BuildingsScript>().GetBuildingsId(); // ziskanie id druhej budovy
-					pointSecond = buildingsList[i].transform;
+					pointSecond = buildingsList[i].transform; // ziskanie druhej suradnice
+					secondId = pointSecond.GetComponent<BuildingsScript>().GetBuildingsId(); // ziskanie id druhej budovy
 				}
 			}
 
 			if((pointFirst != null) && (pointSecond != null)) {
-				if(secondObject.GetComponent<BuildingsScript>().GetTypeOfPlayer() == enemyType) {// problem ked sa tento uzol dobije nepriatel sa stale snazi z neho utocit napriek tomu ze patri inemu hracovi uz
+				if(pointSecond.GetComponent<BuildingsScript>().GetTypeOfPlayer() == enemyType) {
 					destinationLock = true;
 				} else {
-					if(firstObject.GetComponent<BuildingsScript>().GetTypeOfPlayer() != enemyType) {
+					if(pointFirst.GetComponent<BuildingsScript>().GetTypeOfPlayer() != enemyType) {
 						destinationLock = true;
 					}
 				}
-				if(firstObject.GetComponent<BuildingsScript>().GetNumberOfSoldier() > 0) {
-					BulletMove();
-					firstObject.GetComponent<BuildingsScript>().RemoveSoldier();
 
+				if(pointFirst.GetComponent<BuildingsScript>().GetNumberOfSoldier() > 1) {
+					SettingEnemySender();
 					pointFirst = pointSecond = null;
+				} else {
+					destinationLock = true;
 				}
 			}
-
-			lastTime = Time.time;
-		}
 	}
 
-	private void BulletMove() {
-		try{
-			switch(enemyType) {
-			case 3:
-				bulletInstance = Instantiate (rigidBody, pointFirst.position, Quaternion.Euler (new Vector3 (0, 0, 0))) as Rigidbody2D;
-				bulletInstance.GetComponent<EnemySoldierRedScript> ().SetSecondPoint (pointSecond);
-				bulletInstance.GetComponent<EnemySoldierRedScript> ().SetSecondId (secondId);
-				break;
-			case 4:
-				bulletInstance = Instantiate (rigidBody, pointFirst.position, Quaternion.Euler (new Vector3 (0, 0, 0))) as Rigidbody2D;
-				bulletInstance.GetComponent<EnemySoldierVioletScript> ().SetSecondPoint (pointSecond);
-				bulletInstance.GetComponent<EnemySoldierVioletScript> ().SetSecondId (secondId);
-				break;
-			}		
-		} catch{
-			Debug.Log("bullet not shoot");
-		};
+	private void SettingEnemySender() {
+		this.GetComponent<EnemySoldierSenderScript>().SetZeroLock(true);
+		this.GetComponent<EnemySoldierSenderScript>().SetFirstPoint(pointFirst);
+		this.GetComponent<EnemySoldierSenderScript>().SetSecondPoint(pointSecond);
+		this.GetComponent<EnemySoldierSenderScript>().SetSecondId(secondId);
 	}
 }
