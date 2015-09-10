@@ -56,7 +56,7 @@ public class PlayerControllerScript : MonoBehaviour {
 								pointSecond.GetComponent<SpriteRenderer>().color = markColor;
 							} else {
 								if(selectedObject.GetComponent<BuildingsScript>().GetTypeOfPlayer() == 1) {
-									pointSecond = selectedObject.transform;
+									pointSecond = pointFirst;
 									pointSecond.GetComponent<SpriteRenderer>().color = markColor;
 								}
 							}
@@ -70,17 +70,15 @@ public class PlayerControllerScript : MonoBehaviour {
 
 
 		if ((pointFirst == pointSecond) && (pointFirst != null) && (pointSecond != null)) {
-			print ("Body su rovnake");
 			StartCoroutine(WaitMoment(pointFirst, pointSecond));
 			pointFirst = pointSecond = null;
-			// todo upgrade budov
-			return;
+			selectedObject = null;
 		} else {
 			if((pointFirst != null) && (pointSecond != null)) {
-
 				SettingSender();
 				StartCoroutine(WaitMoment(pointFirst, pointSecond));
 				pointFirst = pointSecond = null;
+				selectedObject = null;
 			}
 
 		}

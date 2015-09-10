@@ -12,6 +12,7 @@ public class EnemySoldierSenderScript : MonoBehaviour {
 	private int secondId;
 	private bool stopLock = true;
 	public int enemyType = 0; // 3cerveny 4 fialovy
+	private int i = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -25,6 +26,7 @@ public class EnemySoldierSenderScript : MonoBehaviour {
 			if (Time.time > waitEnemyTime + lastTime) {
 				if(pointFirst.GetComponent<BuildingsScript>().GetNumberOfSoldier() > 1) {
 					BulletMove();
+					print ("pocet " + i++);
 					pointFirst.GetComponent<BuildingsScript>().RemoveSoldier();
 				}
 
