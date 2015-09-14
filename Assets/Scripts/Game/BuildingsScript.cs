@@ -25,7 +25,7 @@ public class BuildingsScript : MonoBehaviour {
 
 	void Update() {
 		if(isFarmOrFort) {
-			/*switch(typeOfPlayer) {
+			switch(typeOfPlayer) {
 			case 1:
 				if (Time.time > lastTime + waitPlayerTime) {
 					AddSoldier();
@@ -44,7 +44,7 @@ public class BuildingsScript : MonoBehaviour {
 					lastTime = Time.time;
 				}
 				break;
-			}*/
+			}
 		}
 	}
 
@@ -96,9 +96,7 @@ public class BuildingsScript : MonoBehaviour {
 				}
 			break;
 		}
-			numberofSoldier = 0;
-			textMesh.text = numberofSoldier.ToString();
-        // podla poctu nepriatelov
-		
+		numberofSoldier = 0;
+		textMesh.text = numberofSoldier.ToString();	
 	}
 }

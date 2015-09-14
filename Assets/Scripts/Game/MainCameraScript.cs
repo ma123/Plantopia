@@ -6,10 +6,14 @@ public class MainCameraScript : MonoBehaviour {
 	public int borderX = 7;
 	public int borderY = 6;
 	public int borderZ = 0;
+	public int cameraSizeMax = 7;
+	public int cameraSizeMin = 3;
+	public int actualCameraSize = 5;
 	private Vector3 pos;
 
 	public void Start() {
 		pos = transform.position;
+		Camera.main.orthographicSize = actualCameraSize; // aktualna velkost kamery na zaciatku
 	}
 
 	public void MoveRight() {
@@ -46,15 +50,17 @@ public class MainCameraScript : MonoBehaviour {
 
 	public void SizePlus() {
 		print ("sizePlus");
-		pos.z += offset;
-		
-		transform.position = Vector3.Lerp(transform.position, pos, 1f);
+		if(actualCameraSize > cameraSizeMin) {
+			actualCameraSize -= offset;
+			Camera.main.orthographicSize = actualCameraSize;
+		}
 	}
 
 	public void SizeMinus() {
 		print ("sizeMinus");
-		pos.z -= offset;
-		
-		transform.position = Vector3.Lerp(transform.position, pos, 1f);
+		if(actualCameraSize < cameraSizeMax) {
+			actualCameraSize += offset;
+			Camera.main.orthographicSize = actualCameraSize;
+		}
 	}
 }

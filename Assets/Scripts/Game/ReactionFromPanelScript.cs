@@ -22,6 +22,9 @@ public class ReactionFromPanelScript : MonoBehaviour {
 
 	public void NextLevel() {
 		print ("nextLevel");
+		int currentLevel = (PlayerPrefs.GetInt ("currentLevel") + 1);
+		Application.LoadLevel ("Lvl" + currentLevel);
+		PlayerPrefs.SetInt("currentLevel", currentLevel);
 	}
 	
 	public void Restart() {

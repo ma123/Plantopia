@@ -7,6 +7,7 @@ public class PanelManagerScript : MonoBehaviour {
 
 	void Start () {
 		currentPanelIndex = 0;
+		//PlayerPrefs.DeleteAll ();
 	}
 
 	void Update() {

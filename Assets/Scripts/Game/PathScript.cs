@@ -1,25 +1,31 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
-using System.IO;  
 
 public class PathScript : MonoBehaviour {
-	//private bool[,] array = new bool[,]{{false, true, true, false},{true, false, false, true},{true, false, false, true},{false, true, true, false}}; // obdlznik 4x4
-	private bool[,] array = new bool[,]{{false, true, false, true, true, false, false},
-		                                {true, false, true, true, false, false, false},
-		                                {false, true, false, true, false, false, true},
-		                                {true, true, true, false, true, true, true},
-		                                {true, false, false, true, false, true, false},
-		                                {false, false, false, true, true, false, true},
-		                                {false, false, true, true, false, true, false}};
+	private bool[,] levelArray;
+	private int actualLevel;
 
+	public void Start() {
+		actualLevel = PlayerPrefs.GetInt ("currentLevel");
+		print (actualLevel);
+		switch(actualLevel) {
+			case 1: 
+			levelArray = new bool[,]{{false,true,false},{true,false,true},{false,true,false}}; // level1
+			break;
+			case 2:
+			levelArray = new bool[,]{{false,true,true,false},{true,false,false,true},{true,false,false,true},{false,true,true,false}}; // level2
+			break;
+			// todo levels
+		}
+	}
+	
 	public List<bool> GetPath(int id) {
 		List<bool> pathList = new List<bool>();
-		for(int j = 0; j< array.GetLength(1); j++) {
-			pathList.Add(array[id,j]);
+		for(int j = 0; j< levelArray.GetLength(1); j++) {
+			pathList.Add(levelArray[id,j]);
 		}
-
+		
 		return pathList;
 	}
 }

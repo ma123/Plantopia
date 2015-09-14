@@ -43,6 +43,11 @@ public class CheckWinnerScript : MonoBehaviour {
 			GameObject btnInteractable = GameObject.Find("BackToGameBtn");
 			btnInteractable.GetComponent<Button>().interactable = false;
 			winner = false;
+
+			int openedLevel = PlayerPrefs.GetInt ("openedLevel", 1);
+			if(PlayerPrefs.GetInt ("currentLevel") == openedLevel) {
+				PlayerPrefs.SetInt("openedLevel", openedLevel+1);
+			}
 		} 
 		if (loser) {
 			Time.timeScale = 0; // pauznutie hry

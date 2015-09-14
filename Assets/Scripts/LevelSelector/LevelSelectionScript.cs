@@ -15,8 +15,6 @@ public class LevelSelectionScript : MonoBehaviour {
 			levelObject = GameObject.Find("Lvl"+i+"Btn");
 			levelObject.GetComponent<Button>().interactable = false;
 		}
-
-		//PlayerPrefs.DeleteAll ();
 	}
 
 	public void OnClickedLevel(int currentLevel) {
