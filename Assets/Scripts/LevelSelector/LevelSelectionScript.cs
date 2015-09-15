@@ -4,7 +4,7 @@ using System.Collections;
 
 public class LevelSelectionScript : MonoBehaviour {
 	private int openedLevel = 1;	
-	private int numberOfLevels = 3;
+	private int numberOfLevels = 9;
 	private GameObject levelObject;
 
 	void Start() {
