@@ -27,7 +27,7 @@ public class PlayerControllerScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetMouseButtonDown(0)) {
+		if(Input.GetMouseButtonDown(0)) { // ziskam prvu suradnicu , nasledne sa nacitaju vsetky dostupne uzly podla pozicie ydvihnutia kliku sa urci na ktoru stranu sa vzdat
 			ClickMousePlayer();
 			print ("Click down");
 				try {
