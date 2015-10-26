@@ -1,8 +1,11 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="..\Race\Assets\Scripts\PathScript.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="..\Race\Assets\Scripts\Game\CarColliderScript.cs">
     <Files>
-      <File FileName="..\Race\Assets\Scripts\PathScript.cs" Line="54" Column="31" />
+      <File FileName="..\Race\Assets\Scripts\Game\CarColliderScript.cs" Line="40" Column="28" />
+      <File FileName="..\Race\Assets\Scripts\Game\MoneyScript.cs" Line="1" Column="1" />
+      <File FileName="..\Race\Assets\Scripts\Game\ReactionFromPanelScript.cs" Line="1" Column="1" />
+      <File FileName="..\Race\Assets\Scripts\Game\TopCarColliderScript.cs" Line="17" Column="4" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
